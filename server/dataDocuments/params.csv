@@ -1,0 +1,27 @@
+codigo,parametro,abreviatura,unidad
+01,Dióxido de Azufre, SO2, µg/m3
+06,Monóxido de Carbono, CO, mg/m3
+07,Monóxido de Nitrógeno, NO ,µg/m3
+08,Dióxido de Nitrógeno, NO2, µg/m3
+09,Partículas < 2.5 µm, PM2.5, µg/m3
+10,Partículas < 10 µm, PM10, µg/m3
+12,Óxidos de Nitrógeno, NOx, µg/m3
+14,Ozono, O3, µg/m3
+20,Tolueno, TOL, µg/m3
+30,Benceno, BEN, µg/m3
+35,Etilbenceno, EBE µg/m3
+37,Metaxileno ,MXY, µg/m3
+38,Paraxileno ,PXY, µg/m3
+39,Ortoxileno ,OXY, µg/m3
+42,Hidrocarburos totales(hexano) ,TCH, mg/m3
+43,Hidrocarburos (metano) ,CH4, mg/m3
+44,Hidrocarburos no metánicos (hexano), NMHC, mg/m3
+80,Radiación ultravioleta ,UV, mW/m2
+81,Velocidad del viento ,VV, m/s
+82,Dirección del viento, DV, Grados o cuadrante
+83,Temperatura ,TMP ,ºC
+86,Humedad relativa ,HR ,%
+87,Presión,PRB ,mb
+88,Radiación solar,RS, kW/m2
+89,Precipitación,LL , l/m2
+92,Lluvia ácida,LLA ,pH
