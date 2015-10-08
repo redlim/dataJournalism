@@ -4,15 +4,23 @@
   <div class="container">
     <h1>Data Journalism Project</h1>
     <p class="lead">Let's see our work</p>
-    <img src="assets/images/Data-journalism.jpg" alt="Data Journalism">
+    <img id ="logo" src="assets/images/Data-journalism.jpg" alt="Data Journalism">
   </div>
 </header>
 <div class="container" ng-controller="MainCtrl as main">
-  <div class="posts" ng-repeat="post in awesomeThings">
-    <h1>{{post.title}}</h1>
-    <p>{{post.content}}</p>
+  <form name="myForm">
+    <label for="mySelect">Make a choice:</label>
+    <select name="mySelect" id="mySelect"
+            ng-options="option.name for option in selectData.availableOptions track by option.id"
+            ng-model="selectData.selectedOption"></select>
+  </form>
+  <hr>
+  <chart-form></chart-form>
+  <bar-chart height="options.height" data="data" hovered="hovered(args)"></bar-chart>
   </div>
 </div>
+
+
 
 <footer class="footer">
   <div class="container">
