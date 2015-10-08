@@ -130,7 +130,7 @@ datos.insert = function(data,callback){
 
 datos.delete = function(date,callback){
 
-  var query  = "delete from datos where fecha > " + date;
+  var query  = "delete from datos where date(fecha) = " + date;
   anitaDb.query(query,function(err,res){
 
     if(err===null){
