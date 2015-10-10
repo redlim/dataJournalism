@@ -39,13 +39,13 @@ module.exports = function (grunt) {
       },
       dev: {
         options: {
-          script: 'server/app.js',
+          script: 'app.js',
           debug: true
         }
       },
       prod: {
         options: {
-          script: 'dist/server/app.js'
+          script: 'dist/app.js'
         }
       }
     },

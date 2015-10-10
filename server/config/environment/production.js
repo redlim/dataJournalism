@@ -25,9 +25,9 @@ module.exports = {
   mysql : {
     conf:{
       host     : 'localhost',
-      user     : 'root',
-      password : 'bridget',
-      database : 'anita'
+      user     : 'ddatosco',
+      password : 'KpnHT5:1D7',
+      database : 'ddatosco_anita'
     }
   }
 };
