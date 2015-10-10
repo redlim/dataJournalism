@@ -26,7 +26,7 @@ module.exports = {
     conf:{
       host     : 'localhost',
       user     : 'ddatosco',
-      password : 'KpnHT5:1D7',
+      password : 'hdesar$:22.',
       database : 'ddatosco_anita'
     }
   }
