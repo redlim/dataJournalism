@@ -116,6 +116,7 @@ datos.insert = function(data,callback){
   values = values.substring(0, values.length-1);
 
   var query = insertIntoData + values;
+  console.log(query);
   anitaDb.query(query,function(err,res){
 
     if(err===null){
@@ -130,7 +131,8 @@ datos.insert = function(data,callback){
 
 datos.delete = function(date,callback){
 
-  var query  = "delete from datos where date(fecha) = " + date;
+  var query  = "delete from datos where date(fecha) = '" + date +"'";
+  console.log(query);
   anitaDb.query(query,function(err,res){
 
     if(err===null){

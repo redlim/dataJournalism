@@ -32,15 +32,6 @@ var all = {
   // List of user roles
   userRoles: ['guest', 'user', 'admin'],
 
-  // MongoDB connection options
-  mongo: {
-    uri: 'mongodb://<will>:<nvjnsaos>@ds027799.mongolab.com:27799/anitadb',
-    options: {
-      db: {
-        safe: true
-      }
-    }
-  },
   // mariaDb connection options
   mysql : {
     conf:{

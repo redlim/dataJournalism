@@ -37,6 +37,7 @@ main.run= function(callback){
 
       data = parserData(res);
       var date = data[0].anio +"-"+ data[0].mes +"-"+ data[0].dia;
+
       dataModel.delete(date,function(err,res){
         if(err===null) {
           dataModel.insert(data,function(err,res){

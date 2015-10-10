@@ -24,7 +24,7 @@ module.exports = function(app) {
       res.sendfile(app.get('appPath') + '/index.html');
     });
 
-  new CronJob('0 0 * * * *', function() {
+ // new CronJob('0 0 * * * *', function() {
     main.run(function(err,res){
       if(err=== null){
         console.log(res);
@@ -32,7 +32,7 @@ module.exports = function(app) {
         console.log(err);
       }
     });
-  }, null, true, 'Europe/Madrid');
+  //}, null, true, 'Europe/Madrid');
 
   //insertParams.insertStations(function(err,res){
   //
