@@ -149,7 +149,7 @@ datos.getParametro = function(date,param,callback){
   var query  = 'select valor,magnitud,abreviatura,unidad,fecha from datos d ' +
     'inner join parametros p on p.id = d.parametro_id ' +
     'inner join estaciones e on e.id = d.estacion ' +
-    'where p.abreviatura = " '+param+'" ' +
+    'where p.abreviatura = "'+param+'"' +
     'and date(d.fecha) = "'+date+'" ' +
     'order by e.id , d.fecha limit 24 ';
   anitaDb.query(query,function(err,res){

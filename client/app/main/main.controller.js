@@ -70,7 +70,7 @@ angular.module('anitaApp')
 
         $scope.update = function(d, i){
           var option = $scope.selectData.selectedOption.name;
-          console.log(option);
+
           $http.get('/data?tipo='+option).success(function(data) {
 
           $scope.data = data;
