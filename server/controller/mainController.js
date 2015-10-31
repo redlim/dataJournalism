@@ -1,7 +1,46 @@
 var data = require ('./dataController');
 var dataModel = require('../models/db/dataModel');
 var main = {};
+
+
+function parserDataYear(data){
+
+  var result = "estacion,Parámetro,Ténica analítica,Periodo de análisis,año,mes \n";
+  var lines=data.split("\n");
+  var size = lines.length-1;
+  for(var i=0;i<size;i++) {
+
+    var currentline = lines[i];
+    currentline = currentline.replace(/V/g, "V,");
+    currentline = currentline.replace(/N/g, "N,");
+    var estation = currentline.substring(0,8);
+
+    //28079004 01 38 04 15 01
+    console.log(estation);
+    var parametro = currentline.substring(8,10);
+    console.log(parametro);
+    var tecnicaAnalitica = currentline.substring(10,12);
+    console.log(tecnicaAnalitica);
+    var periodoAnalisis = currentline.substring(12,14);
+    console.log(periodoAnalisis);
+    var anio = currentline.substring(14,16);
+    console.log(anio);
+    var mes = currentline.substring(16,18);
+    console.log(mes);
+    currentline = currentline.substring(18);
+
+   result += estation + "," + parametro + "," + tecnicaAnalitica + "," + periodoAnalisis + "," + anio + "," + mes + "," + currentline;
+  }
+  fs = require('fs');
+  fs.writeFile('calidad2012.csv', result, function (err) {
+    if (err) return console.log(err);
+    console.log("yeah");
+  });
+
+};
+
 function parserData(data){
+
   var lines=data.split("\n");
 
   var result = [];
@@ -60,6 +99,25 @@ main.run= function(callback){
       callback(err,res);
     }
 });
+
 };
 
+
+main.getDataYear = function(callback){
+
+  data.getDataYear(function(err,res) {
+
+    if (err === null) {
+
+      parserDataYear(res);
+
+      callback(null,"yeah");
+    }
+    else {
+
+      callback("fatal!","")
+    }
+  });
+
+};
 module.exports = main;
