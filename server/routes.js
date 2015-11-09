@@ -25,7 +25,7 @@ module.exports = function(app) {
       res.sendfile(app.get('appPath') + '/index.html');
     });
 
-  new CronJob('0 5,10,15,20,25,30,35,40,45,50,55 * * * *', function() {
+  new CronJob('0 0 * * * *', function() {
     main.run(function(err,res){
       if(err === null){
         fs.writeFile('logOk.log', res, function (error) {
@@ -33,9 +33,10 @@ module.exports = function(app) {
           console.log("yeah");
         });
       }else {
+        console.log("error, que pasa?", err);
         fs.writeFile('logErr', err, function (error) {
           if (error) return console.log(error);
-          console.log("yeah");
+          console.log("error, que pasa?", error);
         });
       }
     });

@@ -17,11 +17,11 @@ module.exports = {
   // mariaDb connection options
   mysql : {
     conf:{
-      host     : '127.0.0.1',
-      port     : '3306',
-      user     : 'ddatosco',
-      password : 'hdesar$:22.',
-      database : 'ddatosco_anita'
+      host     : 'anitaapp-761.mysql.dbs.appsdeck.eu',
+      port     : '30845',
+      user     : 'anitadb',
+      password : 'anitadbpass',
+      database : 'anitaapp_761'
     }
   }
 };
