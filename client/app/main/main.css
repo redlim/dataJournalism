@@ -96,3 +96,7 @@
 .navbar .navbar-nav > li > a:hover, .navbar .navbar-nav > li > a:focus {
 
 }
+
+#map {
+  height: 300px;
+}

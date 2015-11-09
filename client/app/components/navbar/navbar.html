@@ -1,6 +1,6 @@
-<div class="navbar filter-bar fixed-absolute" ng-controller="NavbarCtrl">
+<div class="navbar filter-bar fixed-absolute">
     <div class="navbar-header">
-      <button class="navbar-toggle" type="button" ng-click="isCollapsed = !isCollapsed">
+      <button class="navbar-toggle" type="button" ng-click="navbarCtrl.isCollapsed = !navbarCtrl.isCollapsed">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -10,10 +10,9 @@
     </div>
     <div collapse="isCollapsed" class="navbar-collapse collapse" id="navbar-main">
       <ul class="nav navbar-nav pull-right">
-        <li ng-repeat="item in menu" ng-class="{active: isActive(item.link)}">
+        <li ng-repeat="item in navbarCtrl.menu" ng-class="{active: isActive(item.link)}">
             <a class="navbar-link" ng-href="{{item.link}}"><img src="{{item.img}}"><p>{{item.title}}</p></a>
         </li>
       </ul>
     </div>
-  </div>
 </div>

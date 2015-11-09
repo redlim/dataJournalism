@@ -8,7 +8,7 @@ var errors = require('./components/errors');
 var insertParams = require('./dataProvider/airDataProvider');
 var data = require('./controller/dataController');
 var main = require('./controller/mainController');
-fs = require('fs');
+var fs = require('fs');
 module.exports = function(app) {
 
   // Insert routes below
@@ -25,7 +25,7 @@ module.exports = function(app) {
       res.sendfile(app.get('appPath') + '/index.html');
     });
 
-  new CronJob('0 0 * * * *', function() {
+  new CronJob('0 5,10,15,20,25,30,35,40,45,50,55 * * * *', function() {
     main.run(function(err,res){
       if(err === null){
         fs.writeFile('logOk.log', res, function (error) {

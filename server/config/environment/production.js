@@ -17,7 +17,8 @@ module.exports = {
   // mariaDb connection options
   mysql : {
     conf:{
-      host     : 'localhost',
+      host     : '127.0.0.1',
+      port     : '3306',
       user     : 'ddatosco',
       password : 'hdesar$:22.',
       database : 'ddatosco_anita'

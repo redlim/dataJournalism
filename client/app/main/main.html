@@ -1,29 +1,4 @@
-<div ng-include="'components/navbar/navbar.html'"></div>
-<div class="section section-header">
-  <img class="parallax-background" src="assets/images/headerbackground.jpg" alt="Data Journalism">
-  <!--<div class="container">-->
-    <!--<h1>Data Journalism Project</h1>-->
-    <!--<h2 class="lead">Let's see our work</h2>-->
-
-  <!--</div>-->
-</div>
-<div class="container" ng-controller="MainCtrl as main">
-  <form name="myForm">
-    <label for="mySelect">Make a choice:</label>
-    <select name="mySelect" id="mySelect"
-            ng-options="option.name for option in selectData.availableOptions track by option.id"
-            ng-model="selectData.selectedOption"></select>
-  </form>
-  <hr>
-  <chart-form></chart-form>
-  <bar-chart height="options.height" data="data" hovered="hovered(args)"></bar-chart>
-  </div>
-</div>
-
-
-
-<footer class="footer">
-  <div class="container">
-    <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>             is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
-  </div>
-</footer>
+<div wi-navbar=""></div>
+<div wi-header=""></div>
+<div wi-map=""></div>
+<div ng-include="'/app/components/footer/footer.html'"></div>

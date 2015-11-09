@@ -1,4 +1,4 @@
-var data = require ('./dataController');
+var dataController = require ('./dataController');
 var dataModel = require('../models/db/dataModel');
 var main = {};
 
@@ -70,16 +70,16 @@ function parserData(data){
 
 main.run= function(callback){
 
-  data.getDataHourly(function(err,res){
+  dataController.getDataHourly(function(err,res){
 
     if(err === null){
 
-      data = parserData(res);
-      var date = data[0].anio +"-"+ data[0].mes +"-"+ data[0].dia;
+      var dataResult = parserData(res);
+      var date = dataResult[0].anio +"-"+ dataResult[0].mes +"-"+ dataResult[0].dia;
 
       dataModel.delete(date,function(err,res){
         if(err===null) {
-          dataModel.insert(data,function(err,res){
+          dataModel.insert(dataResult,function(err,res){
             if(err===null){
               callback(err,res);
             }else{
@@ -91,9 +91,6 @@ main.run= function(callback){
         }
 
       });
-
-
-
   }else{
 
       callback(err,res);
@@ -105,7 +102,7 @@ main.run= function(callback){
 
 main.getDataYear = function(callback){
 
-  data.getDataYear(function(err,res) {
+  dataController.getDataYear(function(err,res) {
 
     if (err === null) {
 
