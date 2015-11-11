@@ -13,15 +13,25 @@ var _ = require('lodash');
 var model = require ('../../models/db/dataModel');
 exports.index = function(req, res) {
 
-  model.getParametro("2015-10-07",req.query.tipo,function(err,response){
-        if(err === null){
+  var fecha = req.query.date;
 
+  model.getValoresEstaciones(fecha,function(err,response){
+        if(err === null){
           res.send(response);
         }
         else{
           res.send(err);
         }
       });
+  //model.getParametro("2015-10-07",req.query.tipo,function(err,response){
+  //      if(err === null){
+  //
+  //        res.send(response);
+  //      }
+  //      else{
+  //        res.send(err);
+  //      }
+  //    });
 
 };
 

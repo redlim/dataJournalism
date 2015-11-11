@@ -16,7 +16,19 @@
 
     };
 
-    var MapController = function ($scope, $location) {
+    var MapController = function ($scope, $location,$http) {
+
+      $http({
+        method: 'GET',
+        url: '/stations',
+        params :{
+          'date': moment().format('YYYY-MM-DD')
+        }
+      }).then(function successCallback(response) {
+        console.log(response.data);
+      }, function errorCallback(response) {
+        //luego tratamos estas cosicas
+      });
 
       var map = L.map('map').setView([40.423852777777775, -3.6823194444444445], 13);
 
@@ -25,7 +37,6 @@
       }).addTo(map);
 
       //Plaza de España
-
       L.marker([40.423852777777775, -3.7122472222222225]).addTo(map)
         .bindPopup('Plaza de España.<br> Urbana de tráfico')
         .openPopup();

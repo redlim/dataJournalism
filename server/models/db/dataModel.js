@@ -15,7 +15,7 @@ datos.insert = function(data,callback){
   for (var i = 0; i < size;i++){
     row = data[i];
     var date = moment(row.anio+row.mes+row.dia,"YYYYMMDD");
-    values += "("+ row.h1 +" , '" +row.v1+ "', '"+date.add(0,'hours').format('YYYY-MM-DD HH:mm:ss')+"', " +
+    values += "("+ row.h1 +" , '" +row.v1+ "', '"+date.add(1,'hours').format('YYYY-MM-DD HH:mm:ss')+"', " +
       "(select id from tecnicas where codigo = '"+row.tecnicanalitica+"')," +
       "(select id from estaciones where codigo ="+ row.estacion1 + row.estacion2 + row.estacion3 +" ), " +
       "(select id from parametros where codigo = "+row.parametros+")),"+
@@ -160,5 +160,21 @@ datos.getParametro = function(date,param,callback){
     }
   });
 
+};
+
+datos.getValoresEstaciones = function(fecha,callback){
+
+  var query  = 'select d.fecha,d.valor,e.nombre,e.latitud,e.longitud, e.altitud,p.magnitud, p.abreviatura, p.unidad from datos d' +
+    ' inner join estaciones e on d.estacion = e.id' +
+    ' inner join parametros p on d.parametro_id = p.id' +
+    ' where d.esValido="v" and date(d.fecha) = "'+fecha+'"';
+
+  anitaDb.query(query,function(err,res){
+    if(err===null){
+      callback(err,res);
+    }else{
+      callback("Error en la consulta de parámeros :" +err,res);
+    }
+  });
 };
 module.exports = datos;

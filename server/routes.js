@@ -13,7 +13,7 @@ module.exports = function(app) {
 
   // Insert routes below
   app.use('/api/things', require('./api/thing'));
-  app.use('/data',require('./api/environment'));
+  app.use('/stations',require('./api/environment'));
   
   // All undefined asset or api routes should return a 404
   app.route('/:url(api|auth|components|app|bower_components|assets)/*')
@@ -25,7 +25,7 @@ module.exports = function(app) {
       res.sendfile(app.get('appPath') + '/index.html');
     });
 
-  new CronJob('0 0 * * * *', function() {
+  new CronJob('0 5 * * * *', function() {
     main.run(function(err,res){
       if(err === null){
         fs.writeFile('logOk.log', res, function (error) {
