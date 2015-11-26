@@ -153,7 +153,7 @@
 
       //Plaza Tres Olivos
       L.marker([40.50058888888889, -3.6897611111111113]).addTo(map)
-        .bindPopup('Tres Olivos.<br> Urbana de fondo')
+        .bindPopup('Tres Olivos.<br>rbana de fondo')
         .openPopup();
     };
 
