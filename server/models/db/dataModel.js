@@ -177,4 +177,17 @@ datos.getValoresEstaciones = function(fecha,callback){
     }
   });
 };
+
+datos.getStations = function(fecha,callback){
+
+  var query  = 'select * from estaciones';
+
+  anitaDb.query(query,function(err,res){
+    if(err===null){
+      callback(err,res);
+    }else{
+      callback("Error en la consulta de parámeros :" +err,res);
+    }
+  });
+};
 module.exports = datos;

@@ -4,9 +4,9 @@ var moment = require('moment');
 var mail = {};
 var anitaDb = connection.connectionMysql();
 
-mail.save = function(mail,content,text,callback){
+mail.save = function(mail,name,text,callback){
 
- var query = "var insert into mails (name,content,mail) values ("+mail+","+content+","+text+")";
+ var query = "insert into mails (name,content,mail) values ('"+name+"','"+text+"','"+mail+"')";
 
   anitaDb.query(query,function(err,res){
     if(err===null){

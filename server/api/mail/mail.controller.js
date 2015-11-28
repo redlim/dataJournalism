@@ -11,14 +11,15 @@
 
 var _ = require('lodash');
 var model = require ('../../models/mail/mailService');
-exports.index = function(req, res) {
+exports.create = function(req, res) {
 
-  var fecha = req.query.date;
-  var content = req.query.content;
-  var mail= req.query.mail;
-  var name = req.query.name;
+  var fecha = req.body.date;
+  var message = req.body.message;
 
-  model.save(content,mail,name,function(err,response){
+  var mail= req.body.mail;
+  var name = req.body.name;
+  console.log(req.body.name);
+  model.save(mail,name,message,function(err,response){
         if(err === null){
           res.send(response);
         }
