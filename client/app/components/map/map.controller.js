@@ -1,17 +1,8 @@
 
 (function () {
   'use strict';
-  angular.module('anitaApp').directive('popUpMap',popUpDirective);
   angular.module('anitaApp').directive('wiMap',wiMapDirective);
 
-  function popUpDirective(){
-
-    return{
-      restrict : 'A',
-      template : '<div> name : {{stationName}}</div>'
-      //link : mapService
-    };
-  }
 
   function wiMapDirective(){
 
@@ -20,26 +11,12 @@
       // determinar iconos :
       var dangerIcon = L.icon({
           iconUrl: '/assets/images/icons/DangerIcon.png',
-          //iconRetinaUrl: 'my-icon@2x.png',
           iconSize: [30, 30]
-          //iconAnchor: [22, 94],
-          //popupAnchor: [-3, -76]
-          //shadowUrl: 'my-icon-shadow.png',
-          //shadowRetinaUrl: 'my-icon-shadow@2x.png',
-          //shadowSize: [68, 95],
-          //shadowAnchor: [22, 94]
         });
 
       var goodIcon = L.icon({
         iconUrl: '/assets/images/icons/GoodIcon.png',
-        //iconRetinaUrl: 'my-icon@2x.png',
         iconSize: [30, 30]
-        //iconAnchor: [22, 94],
-        //popupAnchor: [-3, -76]
-        //shadowUrl: 'my-icon-shadow.png',
-        //shadowRetinaUrl: 'my-icon-shadow@2x.png',
-        //shadowSize: [68, 95],
-        //shadowAnchor: [22, 94]
       });
       //inicializarMapa
       var map = L.map('map').setView([40.423852777777775, -3.6823194444444445], 13);
@@ -195,7 +172,7 @@
     return{
       restrict : 'A',
       templateUrl : 'app/components/map/map.html',
-      controller : MapController,
+      controller : ['$scope', '$location','$http',MapController],
       controllerAs : 'MapCtrl'
       //link : mapService
     };
