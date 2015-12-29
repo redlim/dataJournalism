@@ -180,8 +180,13 @@ datos.getValoresEstaciones = function(fecha,callback){
 
 datos.getStations = function(fecha,callback){
 
-  var query  = 'select * from estaciones';
-
+  var query  = "select d.valor,d.fecha,e.nombre as 'estacion',e.latitud,e.longitud, p.magnitud,p.abreviatura, p.unidad  from datos d " +
+    "inner join estaciones e on e.id = d.estacion " +
+    "inner join parametros p on p.id = d.parametro_id " +
+    "where fecha >= '"+fecha+"'and d.esValido <> 'n' " +
+    "and (p.abreviatura='CO' " +
+    "or p.abreviatura='NO' or p.abreviatura='PM10' " +
+    "or p.abreviatura='O3' or p.abreviatura='SO2')";
   anitaDb.query(query,function(err,res){
     if(err===null){
       callback(err,res);

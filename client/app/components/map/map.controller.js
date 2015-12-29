@@ -14,12 +14,23 @@
           iconSize: [30, 30]
         });
 
+      var admissibleIcon = L.icon({
+        iconUrl: '/assets/images/icons/admissibleIcon.png',
+        iconSize: [30, 30]
+      });
+
+      var deficientIcon = L.icon({
+        iconUrl: '/assets/images/icons/deficientIcon.png',
+        iconSize: [30, 30]
+      });
+
+
       var goodIcon = L.icon({
         iconUrl: '/assets/images/icons/GoodIcon.png',
         iconSize: [30, 30]
       });
       //inicializarMapa
-      var map = L.map('map').setView([40.423852777777775, -3.6823194444444445], 13);
+      var map = L.map('map').setView([40.423852777777775, -3.6823194444444445], 11);
 
       L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -29,17 +40,33 @@
         method: 'GET',
         url: '/stations',
         params: {
-          'date': moment().format('YYYY-MM-DD')
+          'date': moment().subtract(2,'h').format('YYYY-MM-DD HH:mm')
         }
       }).then(function successCallback(response) {
 
         console.log(response.data);
+        var station = "";
+        var lastStation = "";
         response.data.forEach(function (d) {
-          $scope.stationName = d.nombre;
-          if(d.latitud != null || d.longitud != null){
-            L.marker([d.latitud, d.longitud],{icon: goodIcon}).addTo(map)
-              .bindPopup('<div><h1>'+ d.nombre+'</h1></div>')
+          station = d.nombre;
+          if(d.latitud != null || d.longitud != null && lastStation !== station){
+            var value = d.valor;
+            var theIcon;
+            switch (true){
+              case (value < 5) : theIcon = goodIcon;
+                                break;
+              case(5 < value < 10) : theIcon = admissibleIcon;
+                    break;
+              case (10 < value < 15 ) : theIcon = deficientIcon;
+                    break;
+              case( value > 15) : theIcon = dangerIcon;
+                    break;
+              default: theIcon =dangerIcon;
+            }
+            L.marker([d.latitud, d.longitud],{icon: theIcon}).addTo(map)
+              .bindPopup('<div><h1>'+ d.estacion+'</h1></div>')
               .openPopup();
+            lastStation = station;
           }
         });
 
