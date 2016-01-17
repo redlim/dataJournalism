@@ -5,7 +5,7 @@
     var NavBarController = function ($scope, $location) {
       this.menu = [{
         'title': 'El aire de Madrid',
-        'link': '/',
+        'link': '#mapContainer',
         'img': '/assets/images/environment.png'
       },
         {
