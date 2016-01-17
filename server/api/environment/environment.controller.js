@@ -26,6 +26,7 @@ exports.index = function(req, res) {
 
   model.getStations(fecha,function(err,response){
     if(err === null){
+      
       res.send(response);
     }
     else{

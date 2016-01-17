@@ -4,7 +4,8 @@ angular.module('anitaApp', [
   'ngCookies',
   'ngResource',
   'ngSanitize',
-  'ngRoute'
+  'ngRoute',
+  'duScroll'
 ])
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider

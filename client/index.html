@@ -14,6 +14,7 @@
     <!-- build:css(client) app/vendor.css -->
       <!-- bower:css -->
       <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+      <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
       <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
       <!-- endbower -->
     <!-- endbuild -->
@@ -22,6 +23,7 @@
       <!-- injector:css -->
       <link rel="stylesheet" href="app/app.css">
       <link rel="stylesheet" href="app/components/header/header.css">
+      <link rel="stylesheet" href="app/components/navbar/navbar.css">
       <link rel="stylesheet" href="app/main/main.css">
       <!-- endinjector -->
     <!-- endbuild -->
@@ -62,14 +64,17 @@
       <script src="bower_components/leaflet/dist/leaflet-src.js"></script>
       <script src="bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.js"></script>
       <script src="bower_components/moment/moment.js"></script>
+      <script src="bower_components/angular-scroll/angular-scroll.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
 
         <!-- build:js({.tmp,client}) app/app.js -->
         <script src="app/app.js"></script>
           <!-- injector:js -->
+          <script src="app/components/aboutUs/about.controller.js"></script>
           <script src="app/components/header/header.controller.js"></script>
           <script src="app/components/map/map.controller.js"></script>
+          <script src="app/components/module/contamination.controller.js"></script>
           <script src="app/components/navbar/navbar.controller.js"></script>
           <script src="app/main/main.controller.js"></script>
           <script src="app/main/main.js"></script>

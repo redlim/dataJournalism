@@ -1,4 +1,4 @@
-<div class="navbar filter-bar fixed-absolute">
+<div id="mainNavBar" class="navbar navbar-default navbar-fixed-top">
     <div class="navbar-header">
       <button class="navbar-toggle" type="button" ng-click="navbarCtrl.isCollapsed = !navbarCtrl.isCollapsed">
         <span class="sr-only">Toggle navigation</span>
@@ -6,7 +6,9 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a href="/" class="navbar-brand"><div class="logo"><img src="assets/images/logo.png"></div></a>
+      <a href="#top" class="navbar-brand" du-smooth-scroll du-scrollspy duration="1000">
+        <img class="logo" src="assets/images/logo.png">
+      </a>
     </div>
     <div collapse="isCollapsed" class="navbar-collapse collapse" id="navbar-main">
       <ul class="nav navbar-nav pull-right">
