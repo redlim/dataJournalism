@@ -15,7 +15,7 @@
 
     function MapController($scope, $location, $http, MapService) {
 
-      $scope.params = {abreviatura: 'CO', magnitud: 'Monóxido de carbono'};
+      $scope.params = {abreviatura: 'CO', magnitud: 'Monóxido de carbono', descripcion:'El monóxido de carbono es muy malo'};
 
 
 
