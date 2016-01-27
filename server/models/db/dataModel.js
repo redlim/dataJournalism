@@ -178,15 +178,27 @@ datos.getValoresEstaciones = function(fecha,callback){
   });
 };
 
-datos.getStations = function(fecha,callback){
+datos.getStations = function(fecha,parametros,callback){
 
-  var query  = "select d.valor,d.fecha,e.nombre as 'estacion',e.latitud,e.longitud, p.magnitud,p.abreviatura, p.unidad  from datos d " +
+  var query  = "select d.valor,d.fecha,e.nombre as 'estacion',e.latitud,e.longitud, p.magnitud,p.abreviatura, p.unidad ," +
+    "p.limite_e_peligro , p.limite_e_admisible, p.limite_e_bueno from datos d " +
     "inner join estaciones e on e.id = d.estacion " +
     "inner join parametros p on p.id = d.parametro_id " +
     "where fecha >= '"+fecha+"'and d.esValido <> 'n' " +
-    "and (p.abreviatura='CO' " +
-    "or p.abreviatura='NO' or p.abreviatura='PM10' " +
-    "or p.abreviatura='O3' or p.abreviatura='SO2')";
+    "and p.abreviatura in ('"+parametros+"')";
+  console.log(query);
+  anitaDb.query(query,function(err,res){
+    if(err===null){
+      callback(err,res);
+    }else{
+      callback("Error en la consulta de parámeros :" +err,res);
+    }
+  });
+};
+
+datos.getParams = function(callback){
+
+  var query  = "select * from parametros";
   anitaDb.query(query,function(err,res){
     if(err===null){
       callback(err,res);

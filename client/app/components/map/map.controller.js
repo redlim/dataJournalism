@@ -1,18 +1,35 @@
-
 (function () {
   'use strict';
-  angular.module('anitaApp').directive('wiMap',wiMapDirective);
+  angular.module('anitaApp').directive('wiMap', wiMapDirective);
 
 
-  function wiMapDirective(){
+  function wiMapDirective() {
 
-    var MapController = function ($scope, $location,$http) {
+    return {
+      restrict: 'A',
+      templateUrl: 'app/components/map/map.html',
+      controller: ['$scope', '$location', '$http', 'MapService', MapController],
+      controllerAs: 'MapCtrl'
+      //link : mapService
+    };
 
+    function MapController($scope, $location, $http, MapService) {
+
+      $scope.params = {abreviatura: 'CO', magnitud: 'Monóxido de carbono'};
+
+
+
+      //inicializarMapa
+      var map = L.map('map').setView([40.423852777777775, -3.6823194444444445], 11);
+      map.scrollWheelZoom.disable();
+      L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
       // determinar iconos :
       var dangerIcon = L.icon({
-          iconUrl: '/assets/images/icons/DangerIcon.png',
-          iconSize: [30, 30]
-        });
+        iconUrl: '/assets/images/icons/DangerIcon.png',
+        iconSize: [30, 30]
+      });
 
       var admissibleIcon = L.icon({
         iconUrl: '/assets/images/icons/admissibleIcon.png',
@@ -24,185 +41,92 @@
         iconSize: [30, 30]
       });
 
-
       var goodIcon = L.icon({
         iconUrl: '/assets/images/icons/GoodIcon.png',
         iconSize: [30, 30]
       });
-      //inicializarMapa
-      var map = L.map('map').setView([40.423852777777775, -3.6823194444444445], 11);
 
-      L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(map);
-
-      $http({
-        method: 'GET',
-        url: '/stations',
-        params: {
-          'date': moment().subtract(2,'h').format('YYYY-MM-DD HH:mm')
-        }
-      }).then(function successCallback(response) {
-
-        console.log(response.data);
-        var station = "";
-        var lastStation = "";
-        response.data.forEach(function (d) {
-          station = d.nombre;
-          if(d.latitud != null || d.longitud != null && lastStation !== station){
-            var value = d.valor;
-            var theIcon;
-            switch (true){
-              case (value < 5) : theIcon = goodIcon;
-                                break;
-              case(5 < value < 10) : theIcon = admissibleIcon;
-                    break;
-              case (10 < value < 15 ) : theIcon = deficientIcon;
-                    break;
-              case( value > 15) : theIcon = dangerIcon;
-                    break;
-              default: theIcon =dangerIcon;
-            }
-            L.marker([d.latitud, d.longitud],{icon: theIcon}).addTo(map)
-              .bindPopup('<div><h1>'+ d.estacion+'</h1></div>')
-              .openPopup();
-            lastStation = station;
-          }
-        });
-
-      }, function errorCallback(response) {
-        //luego tratamos estas cosicas
+      var withOutLimit = L.icon({
+        iconUrl: '/assets/images/icons/limitUnknown.png',
+        iconSize: [30, 30]
       });
+      var markers = new L.FeatureGroup();
+      putStationsIntoMap($scope.params.abreviatura);
+      initializeParams();
+      $scope.updateMap = function (param) {
+        map.removeLayer(markers);
+        putStationsIntoMap(param);
+      };
+
+      function putStationsIntoMap(params) {
+        markers = new L.FeatureGroup();
+        MapService.getDataStations(params).then(function successCallback(response) {
+          var station = "";
+          var lastStation = "";
+          response.data.forEach(function (d) {
+
+            station = d.estacion;
+            var dangerLimit = d.limite_e_peligro;
+            var admisibleLimit = d.limite_e_admisible;
+            var goodLimit = d.limite_e_bueno;
+            if (d.latitud != null || d.longitud != null && (lastStation !== station)
+            && (station !== ' RED.- Media de todas las estaciones')) {
+
+              if (dangerLimit != null) {
+
+                var value = d.valor;
+                var theIcon;
+                switch (true) {
+                  case (value < goodLimit) :
+                    theIcon = goodIcon;
+                    break;
+                  case(goodLimit < value < admisibleLimit) :
+                    theIcon = admissibleIcon;
+                    break;
+                  case (admisibleLimit < value < dangerLimit ) :
+                    theIcon = deficientIcon;
+                    break;
+                  case( value > dangerLimit) :
+                    theIcon = dangerIcon;
+                    break;
+                  default:
+                    theIcon = dangerIcon;
+                }
+              }
+              else {
+                theIcon = withOutLimit;
+              }
+              var marker = L.marker([d.latitud, d.longitud], {icon: theIcon})
+                .bindPopup('<div><p>' + station + '</p>' +
+                  '<p>Valor: ' + value + '</p>' +
+                  '<p>Limite Peligro: ' + dangerLimit + '</p>' +
+                  '<p>Limite admisible: ' + admisibleLimit + '</p>' +
+                  '<p>Limite bueno: ' + goodLimit + '</p>' +
+                  '<p>Abreviatura: ' + d.abreviatura + '</p>' +
+                  '</div>')
+                .openPopup();
+              lastStation = station;
+              markers.addLayer(marker);
+            }
+
+          });
+
+          map.addLayer(markers);
+
+        }, function errorCallback(response) {
+          //luego tratamos estas cosicas
+        });
+      }
+
+      function initializeParams() {
+        MapService.getParams().then(function (data) {
+          $scope.paramsOptions = data.data;
+        })
+      }
+
+    }
 
 
-      //
-        //Plaza de España
-
-      //
-      //  //Entre C/ Alcalá y C/ O’ Donell
-      //  L.marker([40.42156388888888, -3.6823194444444445]).addTo(map)
-      //    .bindPopup('Escuelas Aguirre.<br> Urbana de tráfico')
-      //    .openPopup();
-      //
-      //  //Avda. Ramón y Cajal  esq. C/ Príncipe de Vergara
-      //  L.marker([40.45149166666667, -3.6773555555555553]).addTo(map)
-      //    .bindPopup('Avda. Ramón y Cajal. <br> Urbana de tráfico')
-      //    .openPopup();
-      //
-      //  //C/ Arturo Soria  esq. C/  Vizconde de los Asilos
-      //  L.marker([40.44004722222222, -3.6392333333333333]).addTo(map)
-      //    .bindPopup('Arturo Soria.<br> Urbana de fondo')
-      //    .openPopup();
-      //
-      //  //C/. Juan Peñalver
-      //  L.marker([40.34701944444445, -3.713322222222222]).addTo(map)
-      //    .bindPopup('Villaverde.<br> Urbana de fondo')
-      //    .openPopup();
-      //
-      //  //Calle Farolillo - C/Ervigio
-      //  L.marker([40.394780555555556, -3.7318527777777777]).addTo(map)
-      //    .bindPopup('Farolillo.<br> Urbana de fondo')
-      //    .openPopup();
-      //
-      //  //Casa de Campo  (Terminal del Teleférico)
-      //  L.marker([40.419355555555555, -3.7473472222222224]).addTo(map)
-      //    .bindPopup('Casa de campo.<br> Suburbana')
-      //    .openPopup();
-      //
-      //  //C/. Júpiter, 21 (Barajas)
-      //  L.marker([40.47692777777778, -3.580030555555555]).addTo(map)
-      //    .bindPopup('Barajas Pueblo.<br> Urbana de fondo')
-      //    .openPopup();
-      //
-      //  //Plaza del Carmen esq. Tres Cruces.
-      //  L.marker([40.41921388888888, -3.7031722222222223]).addTo(map)
-      //    .bindPopup('Plaza del Carmen.<br> Urbana de fondo')
-      //    .openPopup();
-      //
-      //  //Avd. Moratalaz  esq. Camino de los Vinateros
-      //  L.marker([40.40794722222222, -3.6453055555555554]).addTo(map)
-      //    .bindPopup('Moratalaz.<br> Urbana de tráfico')
-      //    .openPopup();
-      //
-      //  //Avda. Pablo Iglesias esq. C/ Marqués de Lema
-      //  L.marker([40.445544444444444, -3.707127777777778]).addTo(map)
-      //    .bindPopup('Cuatro Caminos.<br> Urbana de tráfico')
-      //    .openPopup();
-      //
-      //  //Avd. Betanzos esq. C/  Monforte de Lemos
-      //  L.marker([40.47822777777778, -3.7115416666666667]).addTo(map)
-      //    .bindPopup('Barrio del Pilar.<br> Urbana de tráfico')
-      //    .openPopup();
-      //
-      //  //C/ Arroyo del Olivar  esq. C/  Río Grande.
-      //  L.marker([40.388152777777776, -3.65152222222222237]).addTo(map)
-      //    .bindPopup('Vallecas.<br> Urbana de Fondo')
-      //    .openPopup();
-      //
-      //  //C/ Juan de Mariana / Pza. Amanecer Mendez Alvaro
-      //  L.marker([40.398113888888886, -3.6868250000000002]).addTo(map)
-      //    .bindPopup('Mendez Álvaro.<br> Urbana de Fondo')
-      //    .openPopup();
-      //
-      //  //C/ Jose Gutierrez Abascal
-      //  L.marker([40.43989722222222, -3.690366666666667]).addTo(map)
-      //    .bindPopup('Castellana.<br> Urbana de Tráfico')
-      //    .openPopup();
-      //
-      //  //Paseo Venezuela- Casa de Vacas
-      //  L.marker([40.41444444444444, -3.682583333333333]).addTo(map)
-      //    .bindPopup('Parque del Retiro.<br> Urbana de fondo')
-      //    .openPopup();
-      //
-      //  //Plaza Castilla (Canal)
-      //  L.marker([40.46557222222223, -3.6887694444444445]).addTo(map)
-      //    .bindPopup('Plaza Castilla .<br> Urbana de tráfico')
-      //    .openPopup();
-      //
-      //  //Avda La Gavia / Avda. Las Suertes
-      //  L.marker([40.372933333333336, -3.6121166666666666]).addTo(map)
-      //    .bindPopup('Ensanche de Vallecas.<br> Urbana de fondo')
-      //    .openPopup();
-      //
-      //  //C/ Riaño (Barajas)
-      //  L.marker([40.46253055555556, -3.580747222222222]).addTo(map)
-      //    .bindPopup('Urb. Embajada.<br> Urbana de fondo')
-      //    .openPopup();
-      //
-      //  // Pza. Fernández Ladreda - Avda. Oporto
-      //  L.marker([40.38496388888889, -3.718727777777778]).addTo(map)
-      //    .bindPopup('Pza. Fernández Ladreda.<br> Urbana de tráfico')
-      //    .openPopup();
-      //
-      //  //C/ Princesa de Eboli esq C/ Maria Tudor
-      //  L.marker([40.49420833333333, -3.660502777777778]).addTo(map)
-      //    .bindPopup('Sanchinarro.<br> Urbana de fondo')
-      //    .openPopup();
-      //
-      //  //Avda. La Guardia
-      //  L.marker([40.51805833333333, -3.774611111111111]).addTo(map)
-      //    .bindPopup('El Pardo.<br> Suburbana')
-      //    .openPopup();
-      //
-      //  //Parque Juan Carlos I (frente oficinas mantenimiento)
-      //  L.marker([40.465250000000005, -3.6090722222222222]).addTo(map)
-      //    .bindPopup('Juan Carlos I.<br> Suburbana')
-      //    .openPopup();
-      //
-      //  //Plaza Tres Olivos
-      //  L.marker([40.50058888888889, -3.6897611111111113]).addTo(map)
-      //    .bindPopup('Tres Olivos.<br>rbana de fondo')
-      //    .openPopup();
-      //};
-    };
-
-    return{
-      restrict : 'A',
-      templateUrl : 'app/components/map/map.html',
-      controller : ['$scope', '$location','$http',MapController],
-      controllerAs : 'MapCtrl'
-      //link : mapService
-    };
   }
 
 

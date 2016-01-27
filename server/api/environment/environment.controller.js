@@ -14,36 +14,28 @@ var model = require ('../../models/db/dataModel');
 exports.index = function(req, res) {
 
   var fecha = req.query.date;
+  var parametros = req.query.params;
 
-  //model.getValoresEstaciones(fecha,function(err,response){
-  //      if(err === null){
-  //        res.send(response);
-  //      }
-  //      else{
-  //        res.send(err);
-  //      }
-  //    });
-
-  model.getStations(fecha,function(err,response){
+  model.getStations(fecha,parametros,function(err,response){
     if(err === null){
-      
       res.send(response);
     }
     else{
       res.send(err);
     }
-
   });
-  //model.getParametro("2015-10-07",req.query.tipo,function(err,response){
-  //      if(err === null){
-  //
-  //        res.send(response);
-  //      }
-  //      else{
-  //        res.send(err);
-  //      }
-  //    });
+};
 
+exports.params = function(req, res) {
+
+  model.getParams(function(err,response){
+    if(err === null){
+      res.send(response);
+    }
+    else{
+      res.send(err);
+    }
+  });
 };
 
 function handleError(res, err) {

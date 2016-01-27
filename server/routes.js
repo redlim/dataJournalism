@@ -13,7 +13,7 @@ module.exports = function(app) {
 
   // Insert routes below
   app.use('/api/things', require('./api/thing'));
-  app.use('/stations',require('./api/environment'));
+  app.use('/data',require('./api/environment'));
   app.use('/mail',require('./api/mail'));
 
   // All undefined asset or api routes should return a 404

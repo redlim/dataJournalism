@@ -1,6 +1,23 @@
 <section id="mapContainer">
   <div class="container text-center">
-    <h1>Soy el Mapa</h1>
+    <h2>La contaminación de Madrid en tiempo real</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <hp>¿Vas a correr por el centro de Madrid y te preocupa la contaminación?
+          Este mapa muestra los niveles de contaminación a tiempo real.</hp>
+      </div>
+      <div class="col-md-2">
+        <!--<p>Selecciona el parámetro a consultar</p>-->
+        <label for="level">Parametro:</label>
+        <select  class="form-control" id="level" ng-options="option.abreviatura for option in  paramsOptions track by option.id"
+                ng-model="params" ng-change="updateMap(params.abreviatura)">
+        </select>
+      </div>
+      <div class="col-md-4">
+        <h2>{{params.magnitud}}</h2>
+      </div>
+    </div>
+    <br>
     <div id="map"></div>
   </div>
 </section>
