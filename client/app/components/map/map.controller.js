@@ -69,6 +69,7 @@
             var dangerLimit = d.limite_e_peligro;
             var admisibleLimit = d.limite_e_admisible;
             var goodLimit = d.limite_e_bueno;
+            var unit = d.unidad;
             if (d.latitud != null || d.longitud != null && (lastStation !== station)
             && (station !== ' RED.- Media de todas las estaciones')) {
 
@@ -98,7 +99,7 @@
               }
               var marker = L.marker([d.latitud, d.longitud], {icon: theIcon})
                 .bindPopup('<div><p>' + station + '</p>' +
-                  '<p>Valor: ' + value + '</p>' +
+                  '<p>Valor: ' + value +' '+unit+ '</p>' +
                   '<p>Limite Peligro: ' + dangerLimit + '</p>' +
                   '<p>Limite admisible: ' + admisibleLimit + '</p>' +
                   '<p>Limite bueno: ' + goodLimit + '</p>' +
