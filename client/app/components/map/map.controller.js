@@ -8,12 +8,12 @@
     return {
       restrict: 'A',
       templateUrl: 'app/components/map/map.html',
-      controller: ['$scope', '$location', '$http', 'MapService', MapController],
+      controller: ['$scope', 'MapService', MapController],
       controllerAs: 'MapCtrl'
       //link : mapService
     };
 
-    function MapController($scope, $location, $http, MapService) {
+    function MapController($scope, MapService) {
 
       $scope.params = {abreviatura: 'CO', magnitud: 'Monóxido de carbono', descripcion:'El monóxido de carbono es muy malo'};
 
@@ -97,7 +97,7 @@
               else {
                 theIcon = withOutLimit;
               }
-              var marker = L.marker([d.latitud, d.longitud], {icon: theIcon})
+              var marker = L.marker([d.latitud, d.longitud], {icon: theIcon,name:station})
                 .bindPopup('<div><p>' + station + '</p>' +
                   '<p>Valor: ' + value +' '+unit+ '</p>' +
                   '<p>Limite Peligro: ' + dangerLimit + '</p>' +
@@ -105,7 +105,7 @@
                   '<p>Limite bueno: ' + goodLimit + '</p>' +
                   '<p>Abreviatura: ' + d.abreviatura + '</p>' +
                   '</div>')
-                .openPopup();
+                .openPopup().on('click',markerClick);
               lastStation = station;
               markers.addLayer(marker);
             }
@@ -125,6 +125,188 @@
         })
       }
 
+      function markerClick(e){
+        var data = parseParameterData(MapService.params.data, this);
+        drawParameter(data);
+      }
+
+      function  parseParameterData(data,element){
+
+        var newData = [];
+
+        data.forEach(function(d){
+          if(d.estacion === element.options.name)
+          newData.push({'fecha':d.fecha ,'valor': d.valor})
+        });
+
+        return newData;
+      }
+
+      var  drawParameter = function(data){
+
+
+        // Set the dimensions of the canvas / graph
+        var margin = {top: 30, right: 20, bottom: 30, left: 50},
+          width = 600 - margin.left - margin.right,
+          height = 270 - margin.top - margin.bottom;
+
+        var parseDate = d3.time.format("%d %m %Y %X").parse;
+        var bisectDate = d3.bisector(function(d) { return d.fecha; }).left;
+        var formatDate = d3.time.format("%X");
+
+        // Set the ranges
+        var x = d3.time.scale().range([0, width]);
+        var y = d3.scale.linear().range([height, 0]);
+
+        // Define the axes
+        var xAxis = d3.svg.axis().scale(x)
+          .orient("bottom").ticks(5);
+
+        var yAxis = d3.svg.axis().scale(y)
+          .orient("left").ticks(10);
+
+        // Define the line
+        var valueline = d3.svg.line()
+          .x(function(d) { return x(d.fecha); })
+          .y(function(d) { return y(d.valor); });
+
+        var svg = d3.select("#graph")
+          .append('svg')
+          .attr("width", width + margin.left + margin.right)
+          .attr("height",height + margin.top + margin.bottom)
+          .append("g")
+          .attr("transform","translate(" + margin.left +"," + margin.top+")");
+
+        var lineSvg = svg.append("g");
+        var focus = svg.append("g")
+          .style("dysplay","none");
+
+
+          data.forEach(function(d){
+            d.fecha = parseDate(d.fecha);
+            d.valor = +d.valor;
+          });
+
+          x.domain(d3.extent(data, function(d) { return d.fecha; }));
+          y.domain([0, d3.max(data, function(d) { return d.valor; })]);
+
+          lineSvg.append("path")
+            .attr("class","line")
+            .attr("d",valueline(data));
+
+          //eje x
+          svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform","translate(0,"+height + ")")
+            .call(xAxis);
+
+          //eje Y
+          svg.append("g")
+            .attr("class","x axis")
+            .call(yAxis);
+
+          // la línea x
+          focus.append("line")
+            .attr("class", "x")
+            .style("stroke","blue")
+            .style("stroke-dasharay","3,3")
+            .style("opacity",0.5)
+            .attr("y1",0)
+            .attr("y2",height);
+
+        //línea y
+        focus.append("line")
+          .attr("class","y")
+          .style("stroke","blue")
+          .style("stroke-dasharay","3,3")
+          .style("opacity",0.5)
+          .attr("x1",width)
+          .attr("x2",width);
+
+
+          focus.append("circle")
+            .attr("class","y")
+            .style("fill","none")
+            .style("stroke","blue")
+            .attr("r",4);
+
+        // Valor en la intersección
+        focus.append("text")
+          .attr("class","y1")
+          .style("stroke", "white")
+          .style("stroke-width","3.5px")
+          .style("opacity",0.8)
+          .attr("dx",8)
+          .attr("dy","-.3em");
+        focus.append("text")
+          .attr("class","y2")
+          .attr("dx",8)
+          .attr("dy","-.3em");
+
+        // fecha en la inteseccion
+
+        focus.append("text")
+          .attr("class", "y3")
+          .style("stroke", "white")
+          .style("stroke-width", "3.5px")
+          .style("opacity", 0.8)
+          .attr("dx", 8)
+          .attr("dy", "1em");
+        focus.append("text")
+          .attr("class", "y4")
+          .attr("dx", 8)
+          .attr("dy", "1em");
+
+        // el rectangulo que captura la posición del ratón!
+          svg.append("rect")
+            .attr("width",width)
+            .attr("height",height)
+            .style("fill","none")
+            .style("pointer-events","all")
+            .on("mouseover",function(){focus.style("display",null)})
+            .on("mouseout",function(){focus.style("display","none")})
+            .on("mousemove",mousemove);
+
+          function mousemove(){
+            var x0 = x.invert(d3.mouse(this)[0]),
+              i = bisectDate(data, x0, 1),
+              d0 = data[i - 1],
+              d1 = data[i],
+              d = x0 - d0.fecha > d1.fecha - x0 ? d1 : d0;
+
+            focus.select("circle.y")
+              .attr("transform","translate(" + x(d.fecha) + "," + y(d.valor) + ")");
+
+            focus.select("text.y1")
+              .attr("transform","translate(" + x(d.fecha) + "," + y(d.valor) + ")")
+              .text(d.valor);
+
+            focus.select("text.y1")
+              .attr("transform","translate(" + x(d.fecha) + "," + y(d.valor) + ")")
+              .text(d.valor);
+            focus.select("text.y2")
+              .attr("transform","translate(" + x(d.fecha) + "," + y(d.valor) + ")")
+              .text(d.valor);
+
+            focus.select("text.y3")
+              .attr("transform","translate(" + x(d.fecha) + "," + y(d.valor) + ")")
+              .text(formatDate(d.fecha));
+
+            focus.select("text.y4")
+              .attr("transform","translate(" + x(d.fecha) + "," + y(d.valor) + ")")
+              .text(formatDate(d.fecha));
+
+            focus.select(".x")
+              .attr("transform","translate(" + x(d.fecha) + "," + y(d.valor) + ")")
+              .attr("y2", height - y(d.valor));
+
+            focus.select(".y")
+              .attr("transform",
+                "translate(" + width * -1 + "," +
+                y(d.valor) + ")")
+              .attr("x2", width + width);
+          }
+      }
     }
 
 

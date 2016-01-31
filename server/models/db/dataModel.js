@@ -180,7 +180,7 @@ datos.getValoresEstaciones = function(fecha,callback){
 
 datos.getStations = function(fecha,parametros,callback){
 
-  var query  = "select d.valor,d.fecha,e.nombre as 'estacion',e.latitud,e.longitud, p.magnitud,p.abreviatura, p.unidad ," +
+  var query  = "select d.valor,date_format(d.fecha,'%d %m %Y %T') as fecha,e.nombre as 'estacion',e.latitud,e.longitud, p.magnitud,p.abreviatura, p.unidad ," +
     "p.limite_e_peligro , p.limite_e_admisible, p.limite_e_bueno from datos d " +
     "inner join estaciones e on e.id = d.estacion " +
     "inner join parametros p on p.id = d.parametro_id " +

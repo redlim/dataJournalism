@@ -8,16 +8,19 @@
   function mapService($http) {
 
     var mapService = {};
+    mapService.params = "";
 
     mapService.getDataStations = function (params) {
      return  $http({
         method: 'GET',
         url: '/data/stations',
         params: {
-          'date': moment().subtract(4, 'h').format('YYYY-MM-DD HH:mm'),
+          'date': moment().subtract(6, 'h').format('YYYY-MM-DD HH:mm'),
           'params': params
         }
-      });
+      }).then(function(data){
+       return mapService.params = data;
+     });
     };
 
     mapService.getParams = function(){
