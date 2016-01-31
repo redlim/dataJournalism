@@ -17,7 +17,7 @@
 
       $scope.params = {abreviatura: 'CO', magnitud: 'Monóxido de carbono', descripcion:'El monóxido de carbono es muy malo'};
 
-
+      $scope.estacion = MapService.getStation();
 
       //inicializarMapa
       var map = L.map('map').setView([40.423852777777775, -3.6823194444444445], 11);
@@ -53,6 +53,7 @@
       var markers = new L.FeatureGroup();
       putStationsIntoMap($scope.params.abreviatura);
       initializeParams();
+
       $scope.updateMap = function (param) {
         map.removeLayer(markers);
         putStationsIntoMap(param);
@@ -61,6 +62,9 @@
       function putStationsIntoMap(params) {
         markers = new L.FeatureGroup();
         MapService.getDataStations(params).then(function successCallback(response) {
+          // dibujamos gráfica media estaciones
+          var dataDraw = parseParameterData(MapService.params.data,MapService.getStation());
+          drawParameter(dataDraw);
           var station = "";
           var lastStation = "";
           response.data.forEach(function (d) {
@@ -122,12 +126,17 @@
       function initializeParams() {
         MapService.getParams().then(function (data) {
           $scope.paramsOptions = data.data;
-        })
+        });
       }
 
       function markerClick(e){
-        var data = parseParameterData(MapService.params.data, this);
+
+        var data = parseParameterData(MapService.params.data, this.options.name);
         drawParameter(data);
+        MapService.setStation(this.options.name);
+        $scope.$apply(function () {
+          $scope.estacion = MapService.getStation();
+        });
       }
 
       function  parseParameterData(data,element){
@@ -135,7 +144,7 @@
         var newData = [];
 
         data.forEach(function(d){
-          if(d.estacion === element.options.name)
+          if(d.estacion === element)
           newData.push({'fecha':d.fecha ,'valor': d.valor})
         });
 
@@ -146,7 +155,7 @@
 
 
         // Set the dimensions of the canvas / graph
-        var margin = {top: 30, right: 20, bottom: 30, left: 50},
+        var margin = {top: 30, right: 50, bottom: 30, left: 30},
           width = 600 - margin.left - margin.right,
           height = 270 - margin.top - margin.bottom;
 

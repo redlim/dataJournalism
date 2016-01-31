@@ -9,6 +9,7 @@
 
     var mapService = {};
     mapService.params = "";
+    mapService.station = ' RED.- Media de todas las estaciones';
 
     mapService.getDataStations = function (params) {
      return  $http({
@@ -22,6 +23,14 @@
        return mapService.params = data;
      });
     };
+
+    mapService.setStation = function(station){
+       mapService.station = station;
+    };
+
+    mapService.getStation = function(){
+      return mapService.station;
+    }
 
     mapService.getParams = function(){
       return  $http({
