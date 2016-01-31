@@ -157,13 +157,14 @@
 
 
         // Set the dimensions of the canvas / graph
+        d3.selectAll("svg").remove();
         var margin = {top: 30, right: 50, bottom: 30, left: 30},
           width = 600 - margin.left - margin.right,
           height = 270 - margin.top - margin.bottom;
 
         var parseDate = d3.time.format("%d %m %Y %X").parse;
         var bisectDate = d3.bisector(function(d) { return d.fecha; }).left;
-        var formatDate = d3.time.format("%X");
+        var formatDate = d3.time.format("%H:%M");
 
         // Set the ranges
         var x = d3.time.scale().range([0, width]);
