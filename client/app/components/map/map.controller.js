@@ -56,6 +56,7 @@
 
       $scope.updateMap = function (param) {
         map.removeLayer(markers);
+        MapService.setStation(' RED.- Media de todas las estaciones');
         putStationsIntoMap(param);
       };
 
@@ -65,6 +66,7 @@
           // dibujamos gráfica media estaciones
           var dataDraw = parseParameterData(MapService.params.data,MapService.getStation());
           drawParameter(dataDraw);
+          $scope.estacion = MapService.getStation();
           var station = "";
           var lastStation = "";
           response.data.forEach(function (d) {
