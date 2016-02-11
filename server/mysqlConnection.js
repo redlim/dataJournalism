@@ -3,7 +3,7 @@ var mysql = require('mysql');
 
 var connection = {};
 connection.connectionMysql = function(){
-  return mysql.createConnection(config.mysql.conf);
+  return mysql.createPool(config.mysql.conf);
 } ;
 
 

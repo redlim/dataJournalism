@@ -21,7 +21,8 @@ module.exports = {
       port     : '30845',
       user     : 'anitadb',
       password : 'anitadbpass',
-      database : 'anitaapp_761'
+      database : 'anitaapp_761',
+      connectionLimit :10
     }
   }
 };

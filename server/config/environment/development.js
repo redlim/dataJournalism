@@ -10,7 +10,8 @@ module.exports = {
       host     : 'localhost',
       user     : 'root',
       password : 'bridget',
-      database : 'anitaapp_761'
+      database : 'anitaapp_761',
+      connectionLimit :10
     }
   }
 };

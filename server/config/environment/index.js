@@ -38,7 +38,8 @@ var all = {
     host     : 'localhost',
     user     : 'root',
     password : 'bridget',
-    database : 'anita'
+    database : 'anita',
+    connectionLimit :10
     }
   }
 
