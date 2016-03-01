@@ -26,7 +26,7 @@ module.exports = function(app) {
       res.sendfile(app.get('appPath') + '/index.html');
     });
 
-  new CronJob('30 5 * * * *', function() {
+  new CronJob('0 10 * * * *', function() {
     main.run(function(err,res){
       if(err === null){
         fs.writeFile('logOk.log', res, function (error) {

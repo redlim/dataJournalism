@@ -1,24 +1,58 @@
 <section id="mapContainer">
+
   <div class="container text-center">
     <h2>La contaminación de Madrid en tiempo real</h2>
-    <div class="row">
-      <div class="col-md-6">
+
+    <div class="row map-section" >
+      <div class="col-md-10">
         <p>¿Vas a correr por el centro de Madrid y te preocupa la contaminación?
           Este mapa muestra los niveles de contaminación a tiempo real.</p>
+        <p>Estás visualizando el parámetro <a href="#params-info">{{params.magnitud}}</a></p>
         <div id="map"></div>
+        <p>Virgilio, ya recreado en la literatura latina por alguno de sus amigos poetas, como Horacio,
+          ha nutrido con su figura diversas imágenes literarias. La muerte de Virgilio (1958),
+          del autor austríaco Hermann Broch (1886-1951), es, probablemente,
+          la referencia contemporánea de mayor calado con que contamos para el poeta. Impropiamente llamada histórica,
+          esta novela de carácter filosófico, imbuida por el orfismo (de hecho, el pasaje de la bajada a los infiernos
+          tendrá un papel crucial) nos presenta en sus primeras páginas a un Virgilio que vuelve de Atenas por mandato
+          de Augusto y desembarca en Bríndisi, ya desencantado de lo vivido y capaz de apreciar a simple vista cómo son
+          realmente esos latinos que ha cantado en sus versos. El cofre donde guarda su Eneida inconclusa (nótese la
+          presencia física de la obra dentro de la ficción) le acompaña en el triste desplazamiento por las calles del
+          puerto, camino de palacio</p>
       </div>
+    <!--</div>-->
+    <!--<div class="row">-->
+      <div class="col-md-2 map-legend-container">
+        <img class="img-circle map-legend" src="../../../assets/images/icons/DangerIcon.png">
+        <p>Malo:  > {{params.limite_e_peligro}} {{params.unidad}}</p>
+      </div>
+      <div class="col-md-2">
+        <img class="img-circle map-legend" src="../../../assets/images/icons/deficientIcon.png">
+        <p>Deficiente  > {{params.limite_e_admisible}} {{params.unidad}}</p>
+      </div>
+      <div class="col-md-2">
+        <img class="img-circle map-legend" src="../../../assets/images/icons/admissibleIcon.png">
+        <p>Significa que se han sobrepasado los límites admisibles > {{params.limite_e_bueno}} {{params.unidad}} </p>
+      </div>
+      <div class="col-md-2">
+        <img class="img-circle map-legend" src="../../../assets/images/icons/GoodIcon.png">
+        <p>Bueno: por debajo de  {{params.limite_e_bueno}} {{params.unidad}}</p>
+      </div>
+    </div>
+    <div class="row" id="params-info">
       <div class="col-md-6">
-        <!--<p>Selecciona el parámetro a consultar</p>-->
+        <h4>Escoge el parámetro que quieras y mira su evolución</h4>
         <label for="level">Parametro:</label>
-        <select  class="form-control" id="level" ng-options="option.abreviatura for option in  paramsOptions track by option.id"
+        <select class="form-control" id="level"
+                ng-options="option.abreviatura for option in  paramsOptions track by option.id"
                 ng-model="params" ng-change="updateMap(params.abreviatura)">
         </select>
+        <h4>{{estacion}}</h4>
+        <h4>{{params.magnitud}}</h4>
+        <div id="graph"></div>
       </div>
       <div class="col-md-6">
-        <h2>{{estacion}}</h2>
-        <h4>{{params.magnitud}}</h4>
         <p>{{params.descripcion}}</p>
-        <div id="graph"></div>
       </div>
     </div>
     <br>

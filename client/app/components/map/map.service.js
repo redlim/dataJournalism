@@ -30,7 +30,7 @@
 
     mapService.getStation = function(){
       return mapService.station;
-    }
+    };
 
     mapService.getParams = function(){
       return  $http({

@@ -20,7 +20,7 @@
       $scope.estacion = MapService.getStation();
 
       //inicializarMapa
-      var map = L.map('map').setView([40.423852777777775, -3.6823194444444445], 11);
+      var map = L.map('map').setView([40.423852777777775, -3.6823194444444445], 12);
       map.scrollWheelZoom.disable();
       L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -106,12 +106,15 @@
               var marker = L.marker([d.latitud, d.longitud], {icon: theIcon,name:station})
                 .bindPopup('<div><p>' + station + '</p>' +
                   '<p>Valor: ' + value +' '+unit+ '</p>' +
-                  '<p>Limite Peligro: ' + dangerLimit + '</p>' +
-                  '<p>Limite admisible: ' + admisibleLimit + '</p>' +
-                  '<p>Limite bueno: ' + goodLimit + '</p>' +
-                  '<p>Abreviatura: ' + d.abreviatura + '</p>' +
+                  //'<p>Limite Peligro: ' + dangerLimit + '</p>' +
+                  //'<p>Limite admisible: ' + admisibleLimit + '</p>' +
+                  //'<p>Limite bueno: ' + goodLimit + '</p>' +
+                  //'<p>Abreviatura: ' + d.abreviatura + '</p>' +
                   '</div>')
                 .openPopup().on('click',markerClick);
+              marker.on('mouseover', function (e) {
+                this.openPopup();
+              });
               lastStation = station;
               markers.addLayer(marker);
             }
@@ -127,6 +130,7 @@
 
       function initializeParams() {
         MapService.getParams().then(function (data) {
+          console.log(data);
           $scope.paramsOptions = data.data;
         });
       }
@@ -140,6 +144,10 @@
           $scope.estacion = MapService.getStation();
         });
       }
+      //marker.bindPopup("Popup content");
+      //marker.on('mouseover', function (e) {
+      //  this.openPopup();
+      //});
 
       function  parseParameterData(data,element){
 
@@ -158,7 +166,7 @@
 
         // Set the dimensions of the canvas / graph
         d3.selectAll("svg").remove();
-        var margin = {top: 30, right: 50, bottom: 30, left: 30},
+        var margin = {top: 30, right: 50, bottom: 30, left: 40},
           width = 600 - margin.left - margin.right,
           height = 270 - margin.top - margin.bottom;
 
@@ -320,8 +328,6 @@
           }
       }
     }
-
-
   }
 
 

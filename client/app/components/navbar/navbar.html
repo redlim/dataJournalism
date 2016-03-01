@@ -13,7 +13,7 @@
     <div class="navbar-collapse collapse" id="navbar-main">
       <ul class="nav navbar-nav pull-right">
         <li ng-repeat="item in navbarCtrl.menu" ng-class="{active: isActive(item.link)}">
-            <a class="navbar-link" ng-href="{{item.link}}" du-smooth-scroll du-scrollspy duration="1000"><img src="{{item.img}}"><p>{{item.title}}</p></a>
+            <a class="navbar-link" ng-href="{{item.link}}" du-smooth-scroll du-scrollspy duration="1000"><p>{{item.title}}</p></a>
         </li>
       </ul>
     </div>
