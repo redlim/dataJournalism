@@ -198,7 +198,7 @@ datos.getStations = function(fecha,parametros,callback){
 
 datos.getParams = function(callback){
 
-  var query  = "select * from parametros";
+  var query  = "select * from parametros where limite_e_peligro > 0";
   anitaDb.query(query,function(err,res){
     if(err===null){
       callback(err,res);

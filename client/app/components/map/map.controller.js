@@ -15,7 +15,8 @@
 
     function MapController($scope, MapService) {
 
-      $scope.params = {abreviatura: 'CO', magnitud: 'Monóxido de carbono', descripcion:'El monóxido de carbono es muy malo'};
+      $scope.params = {}
+      $scope.params.abreviatura = 'CO';
 
       $scope.estacion = MapService.getStation();
 
@@ -51,7 +52,6 @@
         iconSize: [30, 30]
       });
       var markers = new L.FeatureGroup();
-      putStationsIntoMap($scope.params.abreviatura);
       initializeParams();
 
       $scope.updateMap = function (param) {
@@ -132,6 +132,8 @@
         MapService.getParams().then(function (data) {
           console.log(data);
           $scope.paramsOptions = data.data;
+          $scope.paramsDefault = $scope.paramsOptions[0];
+          putStationsIntoMap($scope.paramsDefault.abreviatura);
         });
       }
 

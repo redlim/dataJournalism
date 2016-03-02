@@ -45,14 +45,93 @@
         <label for="level">Parametro:</label>
         <select class="form-control" id="level"
                 ng-options="option.abreviatura for option in  paramsOptions track by option.id"
-                ng-model="params" ng-change="updateMap(params.abreviatura)">
+                ng-model="paramsDefault" ng-change="updateMap(params.abreviatura)">
         </select>
         <h4>{{estacion}}</h4>
         <h4>{{params.magnitud}}</h4>
         <div id="graph"></div>
       </div>
       <div class="col-md-6">
-        <p>{{params.descripcion}}</p>
+        <article class="panel panel-default" ng-show="paramsDefault.abreviatura ==='NO2'">
+          <div class="panel-heading">
+            <h3 class="panel-title">Dióxido de nitrógeno NO2</h3>
+          </div>
+          <section class="panel-body">
+            <h5>¿Qué efectos tiene sobre la salud?</h5>
+            <p>El dióxido de nitrógeno es un gas tóxico con importantes efectos en los pulmones.  Una exposición breve puede causar una leve irritación en el sistema respiratorio y a largo plazo provocar infecciones, enfermedades respiratorias crónicas y cerebrovasculares. Además, afecta con más dureza a los niños, con posibilidad de sufrir un desarrollo pulmonar más lento, y a los ancianos y asmáticos. </p>
+            <h5>¿Qué lo produce?</h5>
+            <p>El tráfico es la principal fuente de este gas tóxico. De hecho, los coches lo emiten directamente y, sobre todo, los motores diésel. </p>
+          </section>
+          <footer class="panel-footer">Fuente:
+            <a href="http://www.madrid.es/portales/munimadrid/es/Inicio/El-Ayuntamiento/Medio-ambiente?vgnextfmt=default&vgnextchannel=4b3a171c30036010VgnVCM100000dc0ca8c0RCRD">
+            Ayuntamiento de Madrid
+            </a>, informe de la OMS.
+          </footer>
+        </article>
+        <article class="panel panel-default" ng-show="paramsDefault.abreviatura ==='PM10'">
+          <div class="panel-heading">
+            <h3 class="panel-title">Las partículas (PM)</h3>
+          </div>
+          <section class="panel-body">
+            <h5>¿Qué efectos tiene sobre la salud?</h5>
+            <p>Inhalar estas partículas puede provocar tos y dificultar la respiración. Ante una exposición muy severa y en personas de riesgo, también puede agravar el asma y dañar los pulmones para siempre. Para personas con problemas de corazón o pulmonares, puede llegar a provocar una muerte prematura.</p>
+            <h5>¿Qué lo produce?</h5>
+            <p>En Madrid se produce sobre todo por el tráfico, a lo que se suman las emisiones de la calefacción de ciertos edificios. Por otro lado, la situación geográfica de la Península influye, porque hasta a España llegan partículas de origen natural del desierto del Sáhara. </p>
+          </section>
+          <footer class="panel-footer">Fuente:
+            <a href="http://www.madrid.es/portales/munimadrid/es/Inicio/El-Ayuntamiento/Medio-ambiente?vgnextfmt=default&vgnextchannel=4b3a171c30036010VgnVCM100000dc0ca8c0RCRD">
+              Ayuntamiento de Madrid
+            </a>, informe de la OMS.
+          </footer>
+        </article>
+        <article class="panel panel-default" ng-show="paramsDefault.abreviatura ==='O3'">
+          <div class="panel-heading">
+            <h3 class="panel-title">Ozono (O3)</h3>
+          </div>
+          <section class="panel-body">
+            <h5>¿Qué efectos tiene sobre la salud?</h5>
+            <p>Tiene la capacidad para irritar las mucosas, pulmones y ojos. Esto a veces conlleva tos, dolores de cabeza o de pecho. Afecta más gravemente a los asmáticos, pero también puede dañar a las personas con buena salud, por ejemplo, al practicar ejercicio al aire libre. </p>
+            <h5>¿Qué lo produce?</h5>
+            <p>El ozono de la estratosfera es imprescindible para filtrar la radiación ultravioleta y que no llegue a la tierra,  se trata de la conocida «capa de ozono». Sin embargo, cuando el ozono se encuentra en la capa más baja de la atmósfera se convierte en un contaminante muy peligroso.  Actividades humanas como el tráfico, junto a un tiempo caluroso, aumentan las concentraciones de ozono en esta capa. </p>
+          </section>
+          <footer class="panel-footer">Fuente:
+            <a href="http://www.madrid.es/portales/munimadrid/es/Inicio/El-Ayuntamiento/Medio-ambiente?vgnextfmt=default&vgnextchannel=4b3a171c30036010VgnVCM100000dc0ca8c0RCRD">
+              Ayuntamiento de Madrid
+            </a>, informe de la OMS.
+          </footer>
+        </article>
+        <article class="panel panel-default" ng-show="paramsDefault.abreviatura ==='SO2'">
+          <div class="panel-heading">
+            <h3 class="panel-title">SO2 dióxido de azufre</h3>
+          </div>
+          <section class="panel-body">
+            <h5>¿Qué efectos tiene sobre la salud?</h5>
+            <p>Bronquitis crónicas, catarros, dificultades para respirar… Cuando se supera el límite marcado por la Unión Europea, los estudios muestran que aumenta la mortalidad de la población y daña especialmente a personas con problemas pulmonares o cardiacos. </p>
+            <h5>¿Qué lo produce?</h5>
+            <p>La industria y las centrales termoeléctricas son la principal fuente artificial de este elemento contaminante, aunque la emisión de los coches también incrementa la concentración de dióxido. </p>
+          </section>
+          <footer class="panel-footer">Fuente:
+            <a href="http://www.madrid.es/portales/munimadrid/es/Inicio/El-Ayuntamiento/Medio-ambiente?vgnextfmt=default&vgnextchannel=4b3a171c30036010VgnVCM100000dc0ca8c0RCRD">
+              Ayuntamiento de Madrid
+            </a>, informe de la OMS.
+          </footer>
+        </article>
+        <article class="panel panel-default" ng-show="paramsDefault.abreviatura ==='CO'">
+          <div class="panel-heading">
+            <h3 class="panel-title">CO Monóxido de carbono</h3>
+          </div>
+          <section class="panel-body">
+            <h5>¿Qué efectos tiene sobre la salud?</h5>
+            <p>Respirar una concentración de CO demasiado alta causa cansancio y dolor de cabeza. Una exposición prolongada y alta puede afectar al sistema cardiaco y pulmonar. </p>
+            <h5>¿Qué lo produce?</h5>
+            <p>Como con la mayoría de contaminantes, el tráfico es el principal responsable del aumento de esta sustancia en el aire. Los avances tecnológicos para mejorar los motores de los coches están ayudando a reducir la presencia de este contaminante. </p>
+          </section>
+          <footer class="panel-footer">Fuente:
+            <a href="http://www.madrid.es/portales/munimadrid/es/Inicio/El-Ayuntamiento/Medio-ambiente?vgnextfmt=default&vgnextchannel=4b3a171c30036010VgnVCM100000dc0ca8c0RCRD">
+              Ayuntamiento de Madrid
+            </a>, informe de la OMS.
+          </footer>
+        </article>
       </div>
     </div>
     <br>
