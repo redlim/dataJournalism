@@ -11,7 +11,7 @@
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width">
   <!-- Polymer Section -->
-  <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
+  <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
   <link rel="import" href="bower_components/polymer/polymer.html">
   <link rel="import" href="elements/dd-elements.html">
 
@@ -19,12 +19,8 @@
   <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
   <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
 </head>
-<body>
-<dd-header></dd-header>
+<body class="fullbleed layout vertical">
 <dd-navbar></dd-navbar>
-<dd-map></dd-map>
-<dd-about></dd-about>
-<dd-footer></dd-footer>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

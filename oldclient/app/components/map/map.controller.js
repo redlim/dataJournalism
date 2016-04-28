@@ -15,7 +15,7 @@
 
     function MapController($scope, MapService) {
 
-      $scope.params = {}
+      $scope.params = {};
       $scope.params.abreviatura = 'CO';
 
       $scope.estacion = MapService.getStation();

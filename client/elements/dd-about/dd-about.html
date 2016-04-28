@@ -3,7 +3,24 @@
 
   </styles>
   <template>
-    <h1>{{textContent}}</h1>
+    <section id="about">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+          <paper-material elevation="1" animated>
+            <h1><a href="http://www.anamartinezaguilar.com">Ana</a></h1>
+            <p>Periodista digital</p>
+          </paper-material>
+            </div>
+          <div class="col-md-6">
+          <paper-material elevation="1" animated>
+            <h1><a href="http://www.wilderolmos.com">Will</a></h1>
+            <p>Desarrollador FullStack</p>
+          </paper-material>
+            </div>
+        </div>
+      </div>
+    </section>
   </template>
   <script>
     // register a new element called proto-element
@@ -11,7 +28,6 @@
       is: "dd-about",
       // add a callback to the element's prototype
       ready: function () {
-        this.textContent = "Soy el Acerca de"
       }
     });
   </script>
