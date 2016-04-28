@@ -1,0 +1,18 @@
+<dom-module id="dd-about">
+  <styles>
+
+  </styles>
+  <template>
+    <h1>{{textContent}}</h1>
+  </template>
+  <script>
+    // register a new element called proto-element
+    Polymer({
+      is: "dd-about",
+      // add a callback to the element's prototype
+      ready: function () {
+        this.textContent = "Soy el Acerca de"
+      }
+    });
+  </script>
+</dom-module>
