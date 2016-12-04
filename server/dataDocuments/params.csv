@@ -9,7 +9,7 @@ codigo,parametro,abreviatura,unidad
 14,Ozono, O3, µg/m3
 20,Tolueno, TOL, µg/m3
 30,Benceno, BEN, µg/m3
-35,Etilbenceno, EBE µg/m3
+35,Etilbenceno, EBE, µg/m3
 37,Metaxileno ,MXY, µg/m3
 38,Paraxileno ,PXY, µg/m3
 39,Ortoxileno ,OXY, µg/m3
